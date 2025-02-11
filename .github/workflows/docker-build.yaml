@@ -27,8 +27,8 @@ jobs:
 
       # Build the Docker image
       - name: Build Docker image
-        run: docker build -t your-dockerhub-username/your-repo-name:${{ env.VERSION }} .
+        run: docker build -t julesdubayle/getting-started-app:${{ env.VERSION }} .
 
       # Push the Docker image
       - name: Push Docker image
-        run: docker push your-dockerhub-username/your-repo-name:${{ env.VERSION }}
+        run: docker push julesdubayle/getting-started-app:${{ env.VERSION }}
