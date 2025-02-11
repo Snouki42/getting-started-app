@@ -1,7 +1,19 @@
 #!/bin/bash
 
+# Vérifier si le fichier version.txt existe
+if [[ ! -f version.txt ]]; then
+  echo "version.txt not found!"
+  exit 1
+fi
+
 # Lire le numéro de version actuel
 CURRENT_VERSION=$(cat version.txt)
+
+# Vérifier le format de la version
+if [[ ! $CURRENT_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  echo "Invalid version format in version.txt"
+  exit 1
+fi
 
 # Incrémenter le numéro de patch
 IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
