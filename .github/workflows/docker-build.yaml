@@ -18,10 +18,6 @@ jobs:
       - name: Increment version
         run: ./increment-version.sh
 
-      # Verify the new version
-      - name: Verify new version
-        run: cat version.txt
-
       # Commit and push the new version
       - name: Commit and push the new version
         run: |
@@ -41,11 +37,6 @@ jobs:
       # Log in to Docker Hub
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      # Get the new version
-      - name: Get new version
-        id: get_version
-        run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
 
       # Build the Docker image
       - name: Build Docker image
