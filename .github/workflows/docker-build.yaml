@@ -10,6 +10,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Log in to Docker Hub
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
       # Make the script executable
       - name: Make script executable
         run: chmod +x increment-version.sh
@@ -17,6 +21,14 @@ jobs:
       # Increment version
       - name: Increment version
         run: ./increment-version.sh
+        
+      # Build the Docker image
+      - name: Build Docker image
+        run: docker build -t julesdubayle/getting-started-app:${{ env.VERSION }} .
+
+      # Push the Docker image
+      - name: Push Docker image
+        run: docker push julesdubayle/getting-started-app:${{ env.VERSION }}
 
       # Commit and push the new version
       - name: Commit and push the new version
@@ -33,15 +45,3 @@ jobs:
           NEW_VERSION=$(cat version.txt)
           git tag $NEW_VERSION
           git push origin $NEW_VERSION
-
-      # Log in to Docker Hub
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      # Build the Docker image
-      - name: Build Docker image
-        run: docker build -t julesdubayle/getting-started-app:${{ env.VERSION }} .
-
-      # Push the Docker image
-      - name: Push Docker image
-        run: docker push julesdubayle/getting-started-app:${{ env.VERSION }}
