@@ -10,11 +10,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Make the script executable
+      - name: Make script executable
+        run: chmod +x increment-version.sh
+
       # Increment version
       - name: Increment version
-        run: |
-          chmod +x increment-version.sh
-          ./increment-version.sh
+        run: ./increment-version.sh
+
+      # Verify the new version
+      - name: Verify new version
+        run: cat version.txt
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub
